@@ -1,0 +1,62 @@
+###############################################################
+## Maven 
+###############################################################
+
+#################################################################################
+# Adding dependency jar into local Maven repository for the following dependency
+#################################################################################
+<dependency>
+    <groupId>com.jidesoft</groupId>
+    <artifactId>jide-common</artifactId>
+    <version>3.5.13</version>
+</dependency>
+
+mvn install:install-file -Dfile=jide-common-3.5.13.jar -DgroupId=com.jidesoft -DartifactId=jide-common -Dversion=3.5.13 -Dpackaging=jar
+
+
+#################################################################################
+# Use version plugin to update version number
+#################################################################################
+c:\my-project\mvn versions:set -DnewVersion=1.4.0-SNAPSHOT
+
+###################################################################################################
+# Advance dependency version - search for all dependencies with group id com.company.app.*
+###################################################################################################
+mvn versions:use-latest-snapshots -Dincludes=com.company.app.*
+
+mvn versions:use-latest-versions -Dincludes=com.company.app.framework -DallowSnapshots=true -DprocessDependencyManagement=false
+
+mvn release:prepare -DautoVersionSubmodules=true -DdevelopmentVersion=1.0.1-SNAPSHOT
+
+
+################################################################################
+## Perform a Maven release using release plugin - BEGIN
+##  on multiple modules
+##	1. A dependent jar module.  The jar module is used by the one of the EAR
+##  2. A Top level parent pom project for both the EAR projects
+##  3. A framework EAR project, depend on the top level parent pom
+##  4. A child EAR project, depend on the framework EAR project
+################################################################################
+cd myprojects
+# Dependent jar file
+cd single-jar-prj
+mvn --batch-mode release:prepare -Dtag=RELEASE-TAG -DreleaseVersion=1.0.0 -DdevelopmentVersion=1.0.1-SNAPSHOT -DautoVersionSubmodules=true
+mvn release:perform
+
+# Top Level Parent POM
+cd ../top-parent
+mvn --batch-mode release:prepare -Dtag=RELEASE-TAG -DreleaseVersion=1.0.0 -DdevelopmentVersion=1.0.1-SNAPSHOT -DautoVersionSubmodules=true
+
+# EAR Level Project
+cd ../my-framework-ear-prj
+mvn --batch-mode release:prepare -Dtag=RELEASE-TAG -DreleaseVersion=1.0.0 -DdevelopmentVersion=1.0.1-SNAPSHOT -DautoVersionSubmodules=true 
+mvn release:perform
+cd ../my-child-ear-prj
+mvn --batch-mode release:prepare -Dtag=RELEASE-TAG -DreleaseVersion=1.0.0 -DdevelopmentVersion=1.0.1-SNAPSHOT -DautoVersionSubmodules=true
+mvn release:perform
+
+If need to use profile, specify -P<profile-name>
+######################################
+## Perform a Maven release - END
+######################################
+
