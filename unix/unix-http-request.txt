@@ -1,0 +1,9 @@
+Unix Command to get/post http request.
+** GET **
+wget --no-cache "http://localhost/app-path/whatever"
+curl -X GET "http://localhost/app-path/whatever"
+
+** POST, return Json format **
+curl -v -H "Content-Type: application/json" -X POST -d "Post-data" http://localhost/app-name/rest/function
+curl -v -H "Content-Type: application/json" -X POST -d "Post-data" http://localhost/app-name/rest/function
+

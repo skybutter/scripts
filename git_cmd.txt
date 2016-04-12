@@ -1,0 +1,71 @@
+############################################
+# Git command
+############################################
+#
+# Get repo from SVN (particular module)
+
+Syntax: 
+(-s means standard SVN layout, which is default, so no need to specify)
+git svn clone http://{svnhost}/{repository}/{module} {local-path-directory}
+
+# On Window Git Bash
+Ex:
+git svn clone http://svnhost/mycompany/mydept/mymodule /c/my-git-repo/mymodule
+git svn clone http://svnhost/mycompany/mydept/mymodule /c/my-git-repo/mymodule -s
+git svn clone -s http://svnhost/mycompany/mydept/mymodule /c/my-git-repo/mymodule
+
+
+# On Unix
+cd ~/gitrepo
+git svn clone http://svnhost/mycompany/mydept/mymodule ./mymodule
+git svn clone http://svnhost/mycompany/mydept/mymodule mymodule -s
+
+# Get repo from SVN (particular module)
+# ignore a particular branch in clone/checkout
+git svn clone -s --ignore-paths=branches\/MY_BRANCH_NAME http://svnhost/mycompany/mydept/mymodule /c/gitrepo/mymodule
+
+# ignore tag or branch(using regex) in clone/checkout [pattern - Prefix with Root_ or branches/, end with FEATURE_NAME]
+git svn clone -s --ignore-paths="tags/\Root_|branches\/FEATURE_NAME" http://svnhost/mycompany/mydept/mymodule /c/gitrepo/mymodule
+
+# ignore tag or branch(using regex) in clone/checkout [pattern - Prefix with Root or branches/, end with BN_1 or unlabeled or BN_3]
+git svn clone -s --ignore-paths="tags\/(Root|AUTO)|branches\/(BN_1|unlabeled|BN_3)" http://svnhost/mycompany/mydept/mymodule /c/gitrepo/mymodule
+
+#Regular expression for ignore-paths (ignore doc or misc directory in trunk or tags or branches)
+^(trunk|tags/[^/]*|branches/[^/]*)/(doc|misc)/
+
+#
+# Git create a local Git branch from remote and switch to it
+#	
+## local-branch-name is local git branch name 
+## REMOTE-SVN-BRANCH-NAME is the remote svn branch name
+git checkout -b local-branch-name REMOTE-SVN-BRANCH-NAME
+
+#
+# Git delete local branch
+#
+git branch -D local-branch-name
+
+#
+# Git switch to master
+#
+git checkout master
+
+#
+# Git revert all changes
+#
+git reset --hard HEAD
+
+# Git pull changes from svn into local repository
+# #change directory to the repo
+git svn rebase
+
+# Git pull changes from svn into local repository (including new svn branches)
+git svn fetch
+git svn rebase
+
+
+#############################################################################################
+# Setting your branch to exactly match the remote branch can be done in two steps:
+git fetch origin
+git reset --hard origin/master
+

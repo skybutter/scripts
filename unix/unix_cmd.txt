@@ -1,0 +1,33 @@
+Unix Commands
+======================================================================
+1.  Find and Replace text in files in a directory
+for fl in *.*; do mv $fl $fl.old; sed 's/oldText/newText/g' $fl.old > $fl; rm $fl.old; done
+
+for fl in *.sh; do mv $fl $fl.old; sed 's/oldText/newText/g' $fl.old > $fl; done
+
+======================================================================
+2.  Check Free disk space on current list of mount
+df -k .
+
+3.  Check disk space usage on current directory and all sub-directories (verbose list)
+du -k .
+
+4. Check disk space usage on directory (and all subdirectories) Total
+du -hs {dir_name}
+
+5. Find the size of each directory under ./data use find:
+Code:
+find ./data -type d -exec du -hs {} \;
+
+======================================================================
+6.  print process without truncating line
+pargs <PID>
+
+==================================================================
+7.  Extract from a bunch of overridden emails in a folder, extract the trade id & date/time from the message body.  Strip off unwanted characters (as these are binary files), find the two lines that matter, strip off more unwanted characters, and combine everything into a single line.  All done within a for loop.
+
+$ for i in *.msg; do perl -e 'while(<>){s/[^\w\n\-: ]//g;print;}' "$i" | egrep '^(Subject|Date.*FONT)' | sed -e 's/^.*T
+rade //g' -e 's/ overridden/\t/g' -e 's/DateTime : //g' -e 's/ PDTFONT//g' | perl -e 'while(<>){chomp;print} print "\n"
+;' >> out.txt ; echo "done $i"; done
+
+--------------------------------------------------------------------------------
