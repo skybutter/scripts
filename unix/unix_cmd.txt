@@ -5,6 +5,10 @@ for fl in *.*; do mv $fl $fl.old; sed 's/oldText/newText/g' $fl.old > $fl; rm $f
 
 for fl in *.sh; do mv $fl $fl.old; sed 's/oldText/newText/g' $fl.old > $fl; done
 
+find /var/whatever/path/ -name myfile.xml -type f -print0 | xargs -0 sed -i  's/old.Text/new.Text/g'
+
+for fl in ./*/whatever/myfile.xml; do mv $fl $fl.old; sed 's/old.Text/new.Text/g' $fl.old > $fl; done
+
 ======================================================================
 2.  Check Free disk space on current list of mount
 df -k .
