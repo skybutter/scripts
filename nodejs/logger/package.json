@@ -1,0 +1,11 @@
+{
+  "name": "logger",
+  "version": "1.0.1",
+  "private": "true",
+  "dependencies": {
+    "mongoskin": "*",
+    "moment": "*",
+    "mysql": "*",
+    "restify": "*"
+  }
+}

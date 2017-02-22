@@ -1,0 +1,2 @@
+The logger receives log events over http GET request and save them into mongodb/mysql.
+Node.js - check the script to see what modules are required.
